@@ -64,3 +64,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+Halo, saya Ghina Salsabila. 
+
+Berikut adalah hasil pengerjaan proyek Ticket Support System berdasarkan panduan yang diberikan. Saya telah mengimplementasikan fitur-fitur utama seperti:
+
+- Autentikasi dan otorisasi dengan peran: User, Agent, dan Admin.
+- CRUD tiket dengan lampiran file (maksimal 2MB).
+- Filter tiket berdasarkan status, prioritas, dan kategori.
+- Pagination dengan 10 tiket per halaman.
+- Komentar pada tiket.
+- Penugasan tiket oleh Admin kepada Agent.
+- Log histori perubahan tiket.
+
+Terima kasih atas kesempatan yang diberikan. Mohon masukan dan arahannya.
