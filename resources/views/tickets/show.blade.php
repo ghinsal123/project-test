@@ -14,6 +14,13 @@
             <p><strong>Deskripsi:</strong><br>{{ $ticket->description }}</p>
             <p><strong>Status:</strong> {{ ucfirst($ticket->status) }}</p>
             <p><strong>Prioritas:</strong> {{ ucfirst($ticket->priority) }}</p>
+            <p><label class="form-label fw-bold">Lampiran:</label><br>
+            @if ($ticket->attachment)
+                <a href="{{ asset('storage/' . $ticket->attachment) }}" target="_blank">Lihat Lampiran</a>
+            @else
+                Tidak ada lampiran.
+            @endif
+            </p>
             <p><strong>Assigned Agent:</strong> {{ $ticket->assignedAgent ? $ticket->assignedAgent->name : '-' }}</p>
             <p><strong>Dibuat pada:</strong> {{ $ticket->created_at->format('d M Y, H:i') }}</p>
         </div>

@@ -26,6 +26,10 @@
             flex-grow: 1;
             padding: 20px;
         }
+        .pagination svg {
+        width: 1rem !important;
+        height: 1rem !important;
+    }
     </style>
 </head>
 <body>

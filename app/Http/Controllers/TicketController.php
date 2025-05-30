@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Models\Category;
 
 
 class TicketController extends Controller
@@ -13,17 +14,27 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Ticket::query();
+        $query = Ticket::query()->with('assignedAgent', 'categories');
 
-        if ($request->has('status') && $request->status != '') {
+        if ($request->status) {
             $query->where('status', $request->status);
         }
 
-        $tickets = $query->latest()->paginate(10);
+        if ($request->priority) {
+            $query->where('priority', $request->priority);
+        }
 
-        return view('tickets.index', compact('tickets'));
+        if ($request->category) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->category);
+            });
+        }
+
+        $tickets = $query->paginate(10);
+        $categories = Category::all(); // Kirim ini ke view
+
+        return view('tickets.index', compact('tickets', 'categories'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -36,7 +47,7 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
+    public function store(Request $request)
     {
         // Validasi input
         $validated = $request->validate([
@@ -85,7 +96,7 @@ public function store(Request $request)
             abort(403);
         }
 
-        $ticket->load('replies.user');
+        $ticket->load('replies.user','categories');
         return view('tickets.show', compact('ticket'));
     }
 
@@ -135,9 +146,12 @@ public function store(Request $request)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $ticket->delete();
+
+        return redirect()->route('tickets.index')->with('success', 'Tiket berhasil dihapus');
     }
 
     public function close($id)
